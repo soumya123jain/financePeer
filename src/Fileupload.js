@@ -37,11 +37,18 @@ function Fileupload() {
 
 
   const formHandler = (e) => {
+    try{
     e.preventDefault();
     const file = e.target[0].files[0];
+    if(file.type!=="application/json"){
+      alert("please upload json files only")
+    }else{
     console.log(file);
     handleFileChosen(file);
-    uploadFiles(file);
+    uploadFiles(file);}}
+    catch{
+      alert("Error");
+    }
   };
  
 
@@ -50,8 +57,7 @@ function Fileupload() {
   const uploadFiles = (file) => {
     //
     const uploadTask = storage.ref(`files/${file.name}`).put(file);
-    uploadTask.on(
-      "state_changed",
+    uploadTask.on( "state_changed",
       (snapshot) => {
         //
         const prog = Math.round(
